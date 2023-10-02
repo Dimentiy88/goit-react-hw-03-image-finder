@@ -1,21 +1,3 @@
-// import React, { Component } from 'react';
-// import { getImages } from 'services/api';
-
-// export class App extends Component {
-//   state = {};
-//   getAllImages = async () => {
-//     try {
-//       const images = await getImages();
-//       console.log(images);
-//     } catch (error) {}
-//   };
-//   render() {
-//     return <div>topt</div>;
-//   }
-// }
-
-// export default App;
-
 import { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { getImages } from '../services/api';
