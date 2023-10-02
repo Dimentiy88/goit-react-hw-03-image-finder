@@ -1,13 +1,15 @@
 import css from './Loader.module.css';
-import { RotatingLines } from 'react-loader-spinner';
+import { Hourglass } from 'react-loader-spinner';
 export const Loader = () => (
   <div className={css.Loader}>
-    <RotatingLines
-      strokeColor="grey"
-      strokeWidth="10"
-      animationDuration="0.75"
-      width="96"
+    <Hourglass
       visible={true}
+      height="80"
+      width="80"
+      ariaLabel="hourglass-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
+      colors={['#306cce', '#72a1ed']}
     />
   </div>
 );
