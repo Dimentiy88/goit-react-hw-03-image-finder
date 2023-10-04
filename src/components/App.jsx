@@ -16,33 +16,74 @@ export class App extends Component {
     modalOpen: false,
     modalImg: '',
     modalAlt: '',
+    total: '',
   };
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({ isLoading: true });
+    // this.setState({ isLoading: true });
     const inputForSearch = e.target.elements.inputForSearch;
     if (inputForSearch.value.trim() === '') {
       return;
     }
-    const response = await getImages(inputForSearch.value, 1);
+
     this.setState({
-      images: response,
-      isLoading: false,
       currentSearch: inputForSearch.value,
-      page: 1,
+      images: [],
+      isLoading: false,
+      pageNr: 1,
+      modalOpen: false,
+      modalImg: '',
+      modalAlt: '',
+      total: '',
     });
+    // const response = await getImages(inputForSearch.value, 1);
+    // this.setState({
+    //   images: response,
+    //   isLoading: false,
+    //   currentSearch: inputForSearch.value,
+    //   pageNr: 1,
+    // });
   };
 
-  handleClickMore = async () => {
-    const response = await getImages(
-      this.state.currentSearch,
-      this.state.pageNr + 1
-    );
-    this.setState({
-      images: [...this.state.images, ...response],
-      pageNr: this.state.pageNr + 1,
-    });
+  handleClickMore = () => {
+    this.setState(prev => ({ pageNr: prev.pageNr + 1 }));
+    // const response = await getImages(
+    //   this.state.currentSearch,
+    //   this.state.pageNr + 1
+    // );
+    // this.setState({
+    //   images: [...this.state.images, ...response],
+    //   pageNr: this.state.pageNr + 1,
+    // });
+  };
+  componentDidUpdate(_, prevState) {
+    const prevQuery = prevState.currentSearch;
+    const nextQuery = this.state.currentSearch;
+    const prevPage = prevState.pageNr;
+    const nextPage = this.state.pageNr;
+
+    if (prevQuery !== nextQuery || prevPage !== nextPage) {
+      this.getData();
+    }
+  }
+
+  getData = async () => {
+    this.setState({ isLoading: true });
+    try {
+      const response = await getImages(
+        this.state.currentSearch,
+        this.state.pageNr
+      );
+      this.setState({
+        images: [...this.state.images, ...response.hits],
+        total: response.totalHits,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   handleImageClick = e => {
@@ -67,7 +108,7 @@ export class App extends Component {
     }
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
 
@@ -90,7 +131,7 @@ export class App extends Component {
               onImageClick={this.handleImageClick}
               images={this.state.images}
             />
-            {this.state.images.length > 0 ? (
+            {this.state.images.length < this.state.total ? (
               <Button onClick={this.handleClickMore} />
             ) : null}
           </React.Fragment>

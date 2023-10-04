@@ -7,12 +7,14 @@ export const getImages = async (value, page) => {
     `https://pixabay.com/api/?q=${value}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`
   );
 
-  return data.hits.map(image => {
-    return {
-      id: image.id,
-      webformatURL: image.webformatURL,
-      largeImageURL: image.largeImageURL,
-      tags: image.tags,
-    };
-  });
+  return data;
 };
+
+// return data.hits.map(image => {
+//   return {
+//     id: image.id,
+//     webformatURL: image.webformatURL,
+//     largeImageURL: image.largeImageURL,
+//     tags: image.tags,
+//   };
+// });
