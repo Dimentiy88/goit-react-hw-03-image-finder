@@ -21,7 +21,6 @@ export class App extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    // this.setState({ isLoading: true });
     const inputForSearch = e.target.elements.inputForSearch;
     if (inputForSearch.value.trim() === '') {
       return;
@@ -37,25 +36,10 @@ export class App extends Component {
       modalAlt: '',
       total: '',
     });
-    // const response = await getImages(inputForSearch.value, 1);
-    // this.setState({
-    //   images: response,
-    //   isLoading: false,
-    //   currentSearch: inputForSearch.value,
-    //   pageNr: 1,
-    // });
   };
 
   handleClickMore = () => {
     this.setState(prev => ({ pageNr: prev.pageNr + 1 }));
-    // const response = await getImages(
-    //   this.state.currentSearch,
-    //   this.state.pageNr + 1
-    // );
-    // this.setState({
-    //   images: [...this.state.images, ...response],
-    //   pageNr: this.state.pageNr + 1,
-    // });
   };
   componentDidUpdate(_, prevState) {
     const prevQuery = prevState.currentSearch;
